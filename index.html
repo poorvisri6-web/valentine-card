@@ -2,72 +2,49 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine Card 💖</title>
+<title>Valentine 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
 
 <style>
+* {
+  box-sizing: border-box;
+  font-family: 'Baloo 2', cursive;
+}
+
 body {
   margin: 0;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #ffd6e8, #ffeef6);
-  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffd6e8, #ffb3c6);
 }
 
 .card {
   width: 360px;
   height: 520px;
-  background: white;
+  background: #fff;
   border-radius: 20px;
-  position: relative;
-  overflow: hidden;
   padding: 20px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.top-text {
-  font-weight: bold;
-  font-size: 20px;
+h1 {
+  font-size: 22px;
 }
 
-.sub-text {
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.heart {
-  position: absolute;
+.main-text {
   font-size: 26px;
-  cursor: pointer;
-  animation: fall 4s linear forwards;
-}
-
-@keyframes fall {
-  from { top: -30px; }
-  to { top: 520px; }
-}
-
-.counter {
-  margin: 10px 0;
-  font-weight: bold;
-}
-
-.question {
-  display: none;
   margin-top: 30px;
 }
 
-.main-line {
-  font-family: 'Baloo 2', cursive;
-  font-size: 26px;
-  margin-bottom: 10px;
-}
-
-.bracket-line {
+.sub-text {
+  font-family: Arial, sans-serif;
   font-size: 14px;
+  margin-top: 10px;
   animation: wiggle 1.5s infinite;
 }
 
@@ -79,49 +56,48 @@ body {
   100% { transform: rotate(0deg); }
 }
 
+.heart {
+  position: absolute;
+  font-size: 28px;
+  cursor: pointer;
+  animation: fall 5s linear forwards;
+}
+
+@keyframes fall {
+  from { top: -40px; }
+  to { top: 540px; }
+}
+
 .buttons {
   margin-top: 30px;
   position: relative;
-  height: 120px;
 }
 
 button {
-  padding: 12px 30px;
-  border-radius: 30px;
+  padding: 12px 28px;
   border: none;
-  font-size: 16px;
+  border-radius: 30px;
+  font-size: 18px;
   cursor: pointer;
 }
 
-#yesBtn {
-  background: #ff4d88;
+#yes {
+  background: #ff4d6d;
   color: white;
 }
 
-#noBtn {
+#no {
   background: #ccc;
   position: absolute;
-  left: 100px;
-  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
+/* Celebration */
 .final {
+  font-size: 36px;
+  color: black;
   display: none;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.yay {
-  font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.love {
-  font-size: 28px;
-  font-weight: bold;
 }
 </style>
 </head>
@@ -129,104 +105,93 @@ button {
 <body>
 
 <div class="card" id="card">
-  <div class="top-text">Catch the hearts 💕</div>
-  <div class="sub-text">(5 minimum)</div>
+  <h1 id="topText">Catch the hearts 💕<br>(5 minimum)</h1>
 
-  <div class="counter" id="counter">Hearts caught: 0</div>
+  <div id="game"></div>
 
-  <div class="question" id="question">
-    <div class="main-line">Will you be my Valentine?</div>
-    <div class="bracket-line">(Abhinav, say YES… the NO button is scared anyway 😏)</div>
+  <div id="question" style="display:none;">
+    <div class="main-text">Will you be my Valentine?</div>
+    <div class="sub-text">(Abhinav, say YES… the NO button is scared anyway 😏)</div>
 
     <div class="buttons">
-      <button id="yesBtn">YES</button>
-      <button id="noBtn">NO</button>
+      <button id="yes">YES</button>
+      <button id="no">NO</button>
     </div>
   </div>
 
-  <div class="final" id="final">
-    <div class="yay">Yayyy!!</div>
-    <div class="love">I love you Tons</div>
-  </div>
+  <div class="final" id="finalText"></div>
 </div>
 
 <script>
-const card = document.getElementById("card");
-const counter = document.getElementById("counter");
-const question = document.getElementById("question");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const final = document.getElementById("final");
-
 let heartsCaught = 0;
-let gameDone = false;
+const game = document.getElementById("game");
+const question = document.getElementById("question");
+const finalText = document.getElementById("finalText");
+const noBtn = document.getElementById("no");
+const card = document.getElementById("card");
 
+/* HEART GENERATION */
 function createHeart() {
-  if (gameDone) return;
+  if (heartsCaught >= 5) return;
 
   const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.innerText = "💖";
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
   heart.style.left = Math.random() * 300 + "px";
 
-  card.appendChild(heart);
-
-  heart.addEventListener("click", () => {
+  heart.onclick = () => {
     heartsCaught++;
-    counter.innerText = `Hearts caught: ${heartsCaught}`;
 
     if (heartsCaught === 5) {
-      gameDone = true;
-      heart.style.transition = "all 0.6s ease";
+      heart.style.transition = "all 0.8s ease";
       heart.style.fontSize = "300px";
-      heart.style.left = "-50px";
-      heart.style.top = "-50px";
-      heart.style.opacity = "0";
+      heart.style.left = "-20px";
+      heart.style.top = "100px";
 
       setTimeout(() => {
         heart.remove();
         question.style.display = "block";
-      }, 600);
+      }, 800);
     } else {
       heart.remove();
     }
-  });
+  };
 
-  setTimeout(() => heart.remove(), 4000);
+  game.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 5000);
 }
 
-setInterval(createHeart, 900);
+let heartInterval = setInterval(createHeart, 900);
 
-/* NO button escape logic */
-function moveNoButton() {
+/* NO BUTTON ESCAPE — SAME AS FIRST PROJECT */
+noBtn.addEventListener("mouseenter", () => {
   const cardRect = card.getBoundingClientRect();
   const btnRect = noBtn.getBoundingClientRect();
 
-  const maxX = cardRect.width - btnRect.width - 20;
-  const maxY = cardRect.height - btnRect.height - 20;
+  const maxX = cardRect.width - btnRect.width;
+  const maxY = cardRect.height - btnRect.height;
 
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
-}
+});
 
-noBtn.addEventListener("mouseenter", moveNoButton);
-noBtn.addEventListener("mouseover", moveNoButton);
-
-/* YES click */
-yesBtn.addEventListener("click", () => {
-  card.style.background = "linear-gradient(135deg, #ff9acb, #ffd6e8)";
+/* YES CLICK */
+document.getElementById("yes").onclick = () => {
   question.style.display = "none";
-  final.style.display = "flex";
+  finalText.style.display = "block";
+  finalText.innerText = "Yayyy!!";
 
   setTimeout(() => {
-    document.querySelector(".yay").style.display = "none";
+    finalText.innerText = "I love you Tons 💖";
   }, 1500);
-});
+};
 </script>
 
 </body>
 </html>
+
 
