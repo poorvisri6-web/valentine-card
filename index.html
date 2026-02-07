@@ -1,197 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Valentine 💖</title>
+  <meta charset="UTF-8" />
+  <title>Valentine Card 💘</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-<style>
-* {
-  box-sizing: border-box;
-  font-family: 'Baloo 2', cursive;
-}
+    .card {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+    }
 
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #ffd6e8, #ffb3c6);
-}
+    .game-text {
+      font-weight: bold;
+      color: #ff4d6d;
+    }
 
-.card {
-  width: 360px;
-  height: 520px;
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+    .sub {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
 
-h1 {
-  font-size: 22px;
-}
+    h1 {
+      color: #ff4d6d;
+      font-size: 22px;
+      margin-bottom: 30px;
+      display: none;
+    }
 
-.main-text {
-  font-size: 26px;
-  margin-top: 30px;
-}
+    .buttons {
+      position: relative;
+      height: 120px;
+      display: none;
+    }
 
-.sub-text {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  margin-top: 10px;
-  animation: wiggle 1.5s infinite;
-}
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
 
-@keyframes wiggle {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(1deg); }
-  50% { transform: rotate(-1deg); }
-  75% { transform: rotate(1deg); }
-  100% { transform: rotate(0deg); }
-}
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+    }
 
-.heart {
-  position: absolute;
-  font-size: 28px;
-  cursor: pointer;
-  animation: fall 5s linear forwards;
-}
+    #noBtn {
+      position: absolute;
+      background: #ccc;
+      color: #333;
+      left: 120px;
+      top: 60px;
+    }
 
-@keyframes fall {
-  from { top: -40px; }
-  to { top: 540px; }
-}
+    .celebrate {
+      display: none;
+    }
 
-.buttons {
-  margin-top: 30px;
-  position: relative;
-}
+    .celebrate img {
+      width: 100%;
+      border-radius: 15px;
+    }
 
-button {
-  padding: 12px 28px;
-  border: none;
-  border-radius: 30px;
-  font-size: 18px;
-  cursor: pointer;
-}
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      cursor: pointer;
+      animation: fall 4s linear forwards;
+    }
 
-#yes {
-  background: #ff4d6d;
-  color: white;
-}
-
-#no {
-  background: #ccc;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Celebration */
-.final {
-  font-size: 36px;
-  color: black;
-  display: none;
-}
-</style>
+    @keyframes fall {
+      from { top: -30px; }
+      to { top: 360px; }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="card" id="card">
-  <h1 id="topText">Catch the hearts 💕<br>(5 minimum)</h1>
 
-  <div id="game"></div>
-
-  <div id="question" style="display:none;">
-    <div class="main-text">Will you be my Valentine?</div>
-    <div class="sub-text">(Abhinav, say YES… the NO button is scared anyway 😏)</div>
-
-    <div class="buttons">
-      <button id="yes">YES</button>
-      <button id="no">NO</button>
-    </div>
+  <div id="gameInfo">
+    <div class="game-text">Catch the hearts 💕</div>
+    <div class="sub">(5 minimum)</div>
+    <div id="counter">Hearts caught: 0</div>
   </div>
 
-  <div class="final" id="finalText"></div>
+  <h1 id="question">Will you be my Valentine Abhinav? 💖</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">YES</button>
+    <button id="noBtn">NO</button>
+  </div>
+
+  <div class="celebrate" id="celebrate">
+    <h2>Yayyyy!! 💕🎉</h2>
+    <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="Celebration">
+  </div>
+
 </div>
 
 <script>
-let heartsCaught = 0;
-const game = document.getElementById("game");
-const question = document.getElementById("question");
-const finalText = document.getElementById("finalText");
-const noBtn = document.getElementById("no");
-const card = document.getElementById("card");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const celebrate = document.getElementById("celebrate");
+  const buttons = document.querySelector(".buttons");
+  const question = document.getElementById("question");
+  const card = document.getElementById("card");
+  const counter = document.getElementById("counter");
+  const gameInfo = document.getElementById("gameInfo");
 
-/* HEART GENERATION */
-function createHeart() {
-  if (heartsCaught >= 5) return;
+  let heartsCaught = 0;
+  let gameOver = false;
 
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "❤️";
-  heart.style.left = Math.random() * 300 + "px";
+  /* HEART GAME */
+  function createHeart() {
+    if (gameOver) return;
 
-  heart.onclick = () => {
-    heartsCaught++;
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 300 + "px";
 
-    if (heartsCaught === 5) {
-      heart.style.transition = "all 0.8s ease";
-      heart.style.fontSize = "300px";
-      heart.style.left = "-20px";
-      heart.style.top = "100px";
-
-      setTimeout(() => {
-        heart.remove();
-        question.style.display = "block";
-      }, 800);
-    } else {
+    heart.onclick = () => {
+      heartsCaught++;
+      counter.innerText = `Hearts caught: ${heartsCaught}`;
       heart.remove();
-    }
-  };
 
-  game.appendChild(heart);
+      if (heartsCaught === 5) {
+        gameOver = true;
+        gameInfo.style.display = "none";
+        question.style.display = "block";
+        buttons.style.display = "block";
+      }
+    };
 
-  setTimeout(() => heart.remove(), 5000);
-}
+    card.appendChild(heart);
 
-let heartInterval = setInterval(createHeart, 900);
+    setTimeout(() => heart.remove(), 4000);
+  }
 
-/* NO BUTTON ESCAPE — SAME AS FIRST PROJECT */
-noBtn.addEventListener("mouseenter", () => {
-  const cardRect = card.getBoundingClientRect();
-  const btnRect = noBtn.getBoundingClientRect();
+  setInterval(createHeart, 900);
 
-  const maxX = cardRect.width - btnRect.width;
-  const maxY = cardRect.height - btnRect.height;
+  /* NO BUTTON ESCAPE (UNCHANGED & SAFE) */
+  noBtn.addEventListener("mouseenter", () => {
+    const area = buttons.getBoundingClientRect();
+    const btn = noBtn.getBoundingClientRect();
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+    const maxX = area.width - btn.width;
+    const maxY = area.height - btn.height;
 
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-});
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+  });
 
-/* YES CLICK */
-document.getElementById("yes").onclick = () => {
-  question.style.display = "none";
-  finalText.style.display = "block";
-  finalText.innerText = "Yayyy!!";
-
-  setTimeout(() => {
-    finalText.innerText = "I love you Tons 💖";
-  }, 1500);
-};
+  /* YES BUTTON */
+  yesBtn.addEventListener("click", () => {
+    question.style.display = "none";
+    buttons.style.display = "none";
+    celebrate.style.display = "block";
+  });
 </script>
 
 </body>
 </html>
+
 
 
