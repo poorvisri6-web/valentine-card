@@ -2,197 +2,209 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine 💖</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
+<title>Valentine Card 💖</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: 'Baloo 2', cursive;
-}
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffb6c1, #ffd1dc);
+    font-family: Arial, sans-serif;
+  }
 
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #ffd6e8, #ffb3c6);
-}
+  .card {
+    position: relative;
+    width: 360px;
+    height: 560px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+  }
 
-.card {
-  width: 360px;
-  height: 520px;
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+  h1 {
+    font-family: "Comic Sans MS", "Poppins", cursive;
+    font-size: 26px;
+    margin-top: 40px;
+  }
 
-h1 {
-  font-size: 22px;
-}
+  .sub {
+    font-size: 14px;
+    margin-top: 6px;
+    color: #555;
+  }
 
-.main-text {
-  font-size: 26px;
-  margin-top: 30px;
-}
+  .wiggle {
+    display: inline-block;
+    animation: wiggle 1.5s infinite;
+  }
 
-.sub-text {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  margin-top: 10px;
-  animation: wiggle 1.5s infinite;
-}
+  @keyframes wiggle {
+    0%,100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+  }
 
-@keyframes wiggle {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(1deg); }
-  50% { transform: rotate(-1deg); }
-  75% { transform: rotate(1deg); }
-  100% { transform: rotate(0deg); }
-}
+  .buttons {
+    margin-top: 40px;
+    display: none;
+  }
 
-.heart {
-  position: absolute;
-  font-size: 28px;
-  cursor: pointer;
-  animation: fall 5s linear forwards;
-}
+  button {
+    padding: 12px 28px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
 
-@keyframes fall {
-  from { top: -40px; }
-  to { top: 540px; }
-}
+  #yesBtn {
+    background: #ff4d6d;
+    color: white;
+  }
 
-.buttons {
-  margin-top: 30px;
-  position: relative;
-}
+  #noBtn {
+    background: #ccc;
+    margin-left: 20px;
+    position: absolute;
+  }
 
-button {
-  padding: 12px 28px;
-  border: none;
-  border-radius: 30px;
-  font-size: 18px;
-  cursor: pointer;
-}
+  .heart {
+    position: absolute;
+    font-size: 24px;
+    cursor: pointer;
+    animation: fall 4s linear forwards;
+  }
 
-#yes {
-  background: #ff4d6d;
-  color: white;
-}
+  @keyframes fall {
+    from { top: -30px; }
+    to { top: 600px; }
+  }
 
-#no {
-  background: #ccc;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
+  .heart.expand {
+    animation: expandHeart 0.8s forwards;
+    z-index: 10;
+  }
 
-/* Celebration */
-.final {
-  font-size: 36px;
-  color: black;
-  display: none;
-}
+  @keyframes expandHeart {
+    to {
+      transform: scale(20);
+      opacity: 0;
+    }
+  }
+
+  .yay {
+    display: none;
+    font-size: 42px;
+    font-weight: bold;
+    color: black;
+    animation: fadeOut 1.5s forwards;
+  }
+
+  @keyframes fadeOut {
+    to { opacity: 0; }
+  }
+
+  .love {
+    display: none;
+    font-size: 28px;
+    color: black;
+  }
 </style>
 </head>
 
 <body>
 
 <div class="card" id="card">
-  <h1 id="topText">Catch the hearts 💕<br>(5 minimum)</h1>
+  <h3>Catch the hearts 💕</h3>
+  <div class="sub">(5 minimum)</div>
 
-  <div id="game"></div>
-
-  <div id="question" style="display:none;">
-    <div class="main-text">Will you be my Valentine?</div>
-    <div class="sub-text">(Abhinav, say YES… the NO button is scared anyway 😏)</div>
-
-    <div class="buttons">
-      <button id="yes">YES</button>
-      <button id="no">NO</button>
-    </div>
+  <h1 id="question" style="display:none;">Will you be my Valentine?</h1>
+  <div class="sub wiggle" id="bracket" style="display:none;">
+    (Abhinav, say YES… the NO button is scared anyway 😏)
   </div>
 
-  <div class="final" id="finalText"></div>
+  <div class="buttons" id="buttons">
+    <button id="yesBtn">YES</button>
+    <button id="noBtn">NO</button>
+  </div>
+
+  <div class="yay" id="yay">Yayyy!!</div>
+  <div class="love" id="love">I love you Tons ❤️</div>
 </div>
 
 <script>
-let heartsCaught = 0;
-const game = document.getElementById("game");
-const question = document.getElementById("question");
-const finalText = document.getElementById("finalText");
-const noBtn = document.getElementById("no");
-const card = document.getElementById("card");
+  const card = document.getElementById("card");
+  let heartsCaught = 0;
 
-/* HEART GENERATION */
-function createHeart() {
-  if (heartsCaught >= 5) return;
+  function spawnHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 320 + "px";
 
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "❤️";
-  heart.style.left = Math.random() * 300 + "px";
+    heart.onclick = () => {
+      heartsCaught++;
 
-  heart.onclick = () => {
-    heartsCaught++;
+      if (heartsCaught === 5) {
+        heart.classList.add("expand");
+        setTimeout(showQuestion, 700);
+      }
 
-    if (heartsCaught === 5) {
-      heart.style.transition = "all 0.8s ease";
-      heart.style.fontSize = "300px";
-      heart.style.left = "-20px";
-      heart.style.top = "100px";
-
-      setTimeout(() => {
-        heart.remove();
-        question.style.display = "block";
-      }, 800);
-    } else {
       heart.remove();
+    };
+
+    card.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 4000);
+  }
+
+  const heartInterval = setInterval(() => {
+    if (heartsCaught < 5) spawnHeart();
+    else clearInterval(heartInterval);
+  }, 800);
+
+  function showQuestion() {
+    document.getElementById("question").style.display = "block";
+    document.getElementById("bracket").style.display = "block";
+    document.getElementById("buttons").style.display = "block";
+  }
+
+  const noBtn = document.getElementById("noBtn");
+  card.addEventListener("mousemove", e => {
+    const rect = noBtn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+
+    if (Math.abs(dx) < 80 && Math.abs(dy) < 50) {
+      noBtn.style.left = Math.random() * 240 + "px";
+      noBtn.style.top = Math.random() * 360 + "px";
     }
+  });
+
+  document.getElementById("yesBtn").onclick = () => {
+    document.getElementById("buttons").style.display = "none";
+    document.getElementById("question").style.display = "none";
+    document.getElementById("bracket").style.display = "none";
+
+    const yay = document.getElementById("yay");
+    yay.style.display = "block";
+
+    setTimeout(() => {
+      yay.style.display = "none";
+      document.getElementById("love").style.display = "block";
+    }, 1500);
   };
-
-  game.appendChild(heart);
-
-  setTimeout(() => heart.remove(), 5000);
-}
-
-let heartInterval = setInterval(createHeart, 900);
-
-/* NO BUTTON ESCAPE — SAME AS FIRST PROJECT */
-noBtn.addEventListener("mouseenter", () => {
-  const cardRect = card.getBoundingClientRect();
-  const btnRect = noBtn.getBoundingClientRect();
-
-  const maxX = cardRect.width - btnRect.width;
-  const maxY = cardRect.height - btnRect.height;
-
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-});
-
-/* YES CLICK */
-document.getElementById("yes").onclick = () => {
-  question.style.display = "none";
-  finalText.style.display = "block";
-  finalText.innerText = "Yayyy!!";
-
-  setTimeout(() => {
-    finalText.innerText = "I love you Tons 💖";
-  }, 1500);
-};
 </script>
 
 </body>
 </html>
+
 
 
 
