@@ -1,209 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Valentine Card 💖</title>
+  <meta charset="UTF-8" />
+  <title>Valentine Card 💘</title>
 
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ffb6c1, #ffd1dc);
-    font-family: Arial, sans-serif;
-  }
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-  .card {
-    position: relative;
-    width: 360px;
-    height: 560px;
-    background: #fff;
-    border-radius: 24px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-    overflow: hidden;
-    text-align: center;
-    padding: 20px;
-  }
+    .card {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+    }
 
-  h1 {
-    font-family: "Comic Sans MS", "Poppins", cursive;
-    font-size: 26px;
-    margin-top: 40px;
-  }
+    .game-text {
+      font-weight: bold;
+      color: #ff4d6d;
+    }
 
-  .sub {
-    font-size: 14px;
-    margin-top: 6px;
-    color: #555;
-  }
+    .sub {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
 
-  .wiggle {
-    display: inline-block;
-    animation: wiggle 1.5s infinite;
-  }
+    h1 {
+      color: #ff4d6d;
+      font-size: 22px;
+      margin-bottom: 30px;
+      display: none;
+    }
 
-  @keyframes wiggle {
-    0%,100% { transform: rotate(0deg); }
-    25% { transform: rotate(-2deg); }
-    75% { transform: rotate(2deg); }
-  }
+    .buttons {
+      position: relative;
+      height: 120px;
+      display: none;
+    }
 
-  .buttons {
-    margin-top: 40px;
-    display: none;
-  }
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+    }
 
-  button {
-    padding: 12px 28px;
-    font-size: 16px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-  }
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+    }
 
-  #yesBtn {
-    background: #ff4d6d;
-    color: white;
-  }
+    #noBtn {
+      position: absolute;
+      background: #ccc;
+      color: #333;
+      left: 120px;
+      top: 60px;
+    }
 
-  #noBtn {
-    background: #ccc;
-    margin-left: 20px;
-    position: absolute;
-  }
+    .celebrate {
+      display: none;
+      color: black;
+    }
 
-  .heart {
-    position: absolute;
-    font-size: 24px;
-    cursor: pointer;
-    animation: fall 4s linear forwards;
-  }
+    .celebrate h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
 
-  @keyframes fall {
-    from { top: -30px; }
-    to { top: 600px; }
-  }
+    .celebrate p {
+      font-size: 18px;
+    }
 
-  .heart.expand {
-    animation: expandHeart 0.8s forwards;
-    z-index: 10;
-  }
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      cursor: pointer;
+      animation: fall 4s linear forwards;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
 
-  @keyframes expandHeart {
-    to {
-      transform: scale(20);
+    @keyframes fall {
+      from { top: -30px; }
+      to { top: 360px; }
+    }
+
+    .blast {
+      transform: scale(15);
       opacity: 0;
     }
-  }
-
-  .yay {
-    display: none;
-    font-size: 42px;
-    font-weight: bold;
-    color: black;
-    animation: fadeOut 1.5s forwards;
-  }
-
-  @keyframes fadeOut {
-    to { opacity: 0; }
-  }
-
-  .love {
-    display: none;
-    font-size: 28px;
-    color: black;
-  }
-</style>
+  </style>
 </head>
 
 <body>
 
 <div class="card" id="card">
-  <h3>Catch the hearts 💕</h3>
-  <div class="sub">(5 minimum)</div>
 
-  <h1 id="question" style="display:none;">Will you be my Valentine?</h1>
-  <div class="sub wiggle" id="bracket" style="display:none;">
-    (Abhinav, say YES… the NO button is scared anyway 😏)
+  <div id="gameInfo">
+    <div class="game-text">Catch the hearts 💕</div>
+    <div class="sub">(5 minimum)</div>
+    <div id="counter">Hearts caught: 0</div>
   </div>
 
-  <div class="buttons" id="buttons">
+  <h1 id="question">Will you be my Valentine Abhinav? 💖</h1>
+
+  <div class="buttons">
     <button id="yesBtn">YES</button>
     <button id="noBtn">NO</button>
   </div>
 
-  <div class="yay" id="yay">Yayyy!!</div>
-  <div class="love" id="love">I love you Tons ❤️</div>
+  <div class="celebrate" id="celebrate">
+    <h2>Yayyy!!</h2>
+    <p>I love you tons 💖</p>
+  </div>
+
 </div>
 
 <script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const celebrate = document.getElementById("celebrate");
+  const buttons = document.querySelector(".buttons");
+  const question = document.getElementById("question");
   const card = document.getElementById("card");
-  let heartsCaught = 0;
+  const counter = document.getElementById("counter");
+  const gameInfo = document.getElementById("gameInfo");
 
-  function spawnHeart() {
+  let heartsCaught = 0;
+  let gameOver = false;
+
+  /* HEART GAME */
+  function createHeart() {
+    if (gameOver) return;
+
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerText = "💖";
-    heart.style.left = Math.random() * 320 + "px";
+    heart.style.left = Math.random() * 300 + "px";
 
     heart.onclick = () => {
       heartsCaught++;
+      counter.innerText = `Hearts caught: ${heartsCaught}`;
 
       if (heartsCaught === 5) {
-        heart.classList.add("expand");
-        setTimeout(showQuestion, 700);
-      }
+        gameOver = true;
+        heart.classList.add("blast");
 
-      heart.remove();
+        setTimeout(() => {
+          gameInfo.style.display = "none";
+          question.style.display = "block";
+          buttons.style.display = "block";
+          heart.remove();
+        }, 600);
+      } else {
+        heart.remove();
+      }
     };
 
     card.appendChild(heart);
-
     setTimeout(() => heart.remove(), 4000);
   }
 
-  const heartInterval = setInterval(() => {
-    if (heartsCaught < 5) spawnHeart();
-    else clearInterval(heartInterval);
-  }, 800);
+  setInterval(createHeart, 900);
 
-  function showQuestion() {
-    document.getElementById("question").style.display = "block";
-    document.getElementById("bracket").style.display = "block";
-    document.getElementById("buttons").style.display = "block";
-  }
+  /* NO BUTTON ESCAPE */
+  noBtn.addEventListener("mouseenter", () => {
+    const area = buttons.getBoundingClientRect();
+    const btn = noBtn.getBoundingClientRect();
 
-  const noBtn = document.getElementById("noBtn");
-  card.addEventListener("mousemove", e => {
-    const rect = noBtn.getBoundingClientRect();
-    const dx = e.clientX - (rect.left + rect.width / 2);
-    const dy = e.clientY - (rect.top + rect.height / 2);
+    const maxX = area.width - btn.width;
+    const maxY = area.height - btn.height;
 
-    if (Math.abs(dx) < 80 && Math.abs(dy) < 50) {
-      noBtn.style.left = Math.random() * 240 + "px";
-      noBtn.style.top = Math.random() * 360 + "px";
-    }
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
   });
 
-  document.getElementById("yesBtn").onclick = () => {
-    document.getElementById("buttons").style.display = "none";
-    document.getElementById("question").style.display = "none";
-    document.getElementById("bracket").style.display = "none";
-
-    const yay = document.getElementById("yay");
-    yay.style.display = "block";
-
-    setTimeout(() => {
-      yay.style.display = "none";
-      document.getElementById("love").style.display = "block";
-    }, 1500);
-  };
+  /* YES BUTTON */
+  yesBtn.addEventListener("click", () => {
+    question.style.display = "none";
+    buttons.style.display = "none";
+    celebrate.style.display = "block";
+  });
 </script>
 
 </body>
 </html>
+
 
 
 
