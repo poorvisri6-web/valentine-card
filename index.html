@@ -1,208 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valentine Card 💖</title>
+<meta charset="UTF-8">
+<title>Valentine Card 💖</title>
 
-  <!-- Bubble Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #ffe6eb;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffd6e8, #ffeef6);
+  font-family: Arial, sans-serif;
+}
 
-    .card {
-      width: 360px;
-      height: 500px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-      text-align: center;
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
+.card {
+  width: 360px;
+  height: 520px;
+  background: white;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  text-align: center;
+}
 
-    .instruction {
-      font-size: 20px;
-      font-weight: bold;
-    }
+.top-text {
+  font-weight: bold;
+  font-size: 20px;
+}
 
-    .instruction span {
-      font-size: 14px;
-      display: block;
-      color: #555;
-    }
+.sub-text {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
 
-    .heart {
-      position: absolute;
-      font-size: 28px;
-      cursor: pointer;
-      animation: fall 5s linear forwards;
-    }
+.heart {
+  position: absolute;
+  font-size: 26px;
+  cursor: pointer;
+  animation: fall 4s linear forwards;
+}
 
-    @keyframes fall {
-      from { top: -40px; }
-      to { top: 520px; }
-    }
+@keyframes fall {
+  from { top: -30px; }
+  to { top: 520px; }
+}
 
-    .blast {
-      animation: blast 0.6s ease forwards;
-    }
+.counter {
+  margin: 10px 0;
+  font-weight: bold;
+}
 
-    @keyframes blast {
-      0% { transform: scale(1); opacity: 1; }
-      60% { transform: scale(2); }
-      100% { transform: scale(3); opacity: 0; }
-    }
+.question {
+  display: none;
+  margin-top: 30px;
+}
 
-    .question {
-      display: none;
-      margin-top: 40px;
-    }
+.main-line {
+  font-family: 'Baloo 2', cursive;
+  font-size: 26px;
+  margin-bottom: 10px;
+}
 
-    .question h2 {
-      font-family: 'Baloo 2', cursive;
-      font-size: 30px;
-    }
+.bracket-line {
+  font-size: 14px;
+  animation: wiggle 1.5s infinite;
+}
 
-    .question p {
-      font-size: 14px;
-      animation: wiggle 1.5s infinite;
-    }
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(1deg); }
+  50% { transform: rotate(-1deg); }
+  75% { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
 
-    @keyframes wiggle {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(5px); }
-    }
+.buttons {
+  margin-top: 30px;
+  position: relative;
+  height: 120px;
+}
 
-    .buttons {
-      margin-top: 20px;
-      position: relative;
-      height: 80px;
-    }
+button {
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+#yesBtn {
+  background: #ff4d88;
+  color: white;
+}
 
-    #yes {
-      background: #ff5e8e;
-      color: white;
-    }
+#noBtn {
+  background: #ccc;
+  position: absolute;
+  left: 100px;
+  top: 60px;
+}
 
-    #no {
-      background: #ccc;
-      position: absolute;
-      right: 0;
-    }
+.final {
+  display: none;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
-    .celebration {
-      display: none;
-      font-size: 32px;
-      color: black;
-    }
+.yay {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 
-    .love {
-      display: none;
-      font-size: 26px;
-      color: black;
-      margin-top: 20px;
-    }
-
-    .pink-bg {
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    }
-  </style>
+.love {
+  font-size: 28px;
+  font-weight: bold;
+}
+</style>
 </head>
 
 <body>
-  <div class="card" id="card">
-    <div class="instruction">
-      Catch the hearts 💕
-      <span>(5 minimum)</span>
+
+<div class="card" id="card">
+  <div class="top-text">Catch the hearts 💕</div>
+  <div class="sub-text">(5 minimum)</div>
+
+  <div class="counter" id="counter">Hearts caught: 0</div>
+
+  <div class="question" id="question">
+    <div class="main-line">Will you be my Valentine?</div>
+    <div class="bracket-line">(Abhinav, say YES… the NO button is scared anyway 😏)</div>
+
+    <div class="buttons">
+      <button id="yesBtn">YES</button>
+      <button id="noBtn">NO</button>
     </div>
-
-    <div class="question" id="question">
-      <h2>Will you be my Valentine?</h2>
-      <p>(Abhinav, say YES… the NO button is scared anyway 😏)</p>
-
-      <div class="buttons">
-        <button id="yes">YES</button>
-        <button id="no">NO</button>
-      </div>
-    </div>
-
-    <div class="celebration" id="yay">Yayyy!!</div>
-    <div class="love" id="love">I love you tons 💕</div>
   </div>
 
-  <script>
-    const card = document.getElementById("card");
-    const question = document.getElementById("question");
-    const yay = document.getElementById("yay");
-    const love = document.getElementById("love");
-    const noBtn = document.getElementById("no");
+  <div class="final" id="final">
+    <div class="yay">Yayyy!!</div>
+    <div class="love">I love you Tons</div>
+  </div>
+</div>
 
-    let count = 0;
-    let gameOver = false;
+<script>
+const card = document.getElementById("card");
+const counter = document.getElementById("counter");
+const question = document.getElementById("question");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const final = document.getElementById("final");
 
-    function createHeart() {
-      if (gameOver) return;
+let heartsCaught = 0;
+let gameDone = false;
 
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = "💖";
-      heart.style.left = Math.random() * 300 + "px";
+function createHeart() {
+  if (gameDone) return;
 
-      heart.onclick = () => {
-        count++;
-        if (count === 5) {
-          gameOver = true;
-          heart.classList.add("blast");
-          setTimeout(() => {
-            question.style.display = "block";
-          }, 600);
-        }
-        heart.remove();
-      };
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerText = "💖";
+  heart.style.left = Math.random() * 300 + "px";
 
-      card.appendChild(heart);
+  card.appendChild(heart);
 
-      setTimeout(() => heart.remove(), 5000);
-    }
+  heart.addEventListener("click", () => {
+    heartsCaught++;
+    counter.innerText = `Hearts caught: ${heartsCaught}`;
 
-    setInterval(createHeart, 800);
-
-    noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * 200;
-      const y = Math.random() * 40;
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    });
-
-    document.getElementById("yes").onclick = () => {
-      question.style.display = "none";
-      card.classList.add("pink-bg");
-
-      yay.style.display = "block";
+    if (heartsCaught === 5) {
+      gameDone = true;
+      heart.style.transition = "all 0.6s ease";
+      heart.style.fontSize = "300px";
+      heart.style.left = "-50px";
+      heart.style.top = "-50px";
+      heart.style.opacity = "0";
 
       setTimeout(() => {
-        yay.style.display = "none";
-        love.style.display = "block";
-      }, 1500);
-    };
-  </script>
+        heart.remove();
+        question.style.display = "block";
+      }, 600);
+    } else {
+      heart.remove();
+    }
+  });
+
+  setTimeout(() => heart.remove(), 4000);
+}
+
+setInterval(createHeart, 900);
+
+/* NO button escape logic */
+function moveNoButton() {
+  const cardRect = card.getBoundingClientRect();
+  const btnRect = noBtn.getBoundingClientRect();
+
+  const maxX = cardRect.width - btnRect.width - 20;
+  const maxY = cardRect.height - btnRect.height - 20;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("mouseover", moveNoButton);
+
+/* YES click */
+yesBtn.addEventListener("click", () => {
+  card.style.background = "linear-gradient(135deg, #ff9acb, #ffd6e8)";
+  question.style.display = "none";
+  final.style.display = "flex";
+
+  setTimeout(() => {
+    document.querySelector(".yay").style.display = "none";
+  }, 1500);
+});
+</script>
+
 </body>
 </html>
+
