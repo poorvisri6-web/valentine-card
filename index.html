@@ -43,10 +43,10 @@
       display: none;
     }
 
-    #prompt {
+    p#prompt {
       color: #ff4d6d;
       font-size: 14px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       display: none;
     }
 
@@ -120,7 +120,7 @@
     <div id="counter">Hearts caught: 0</div>
   </div>
 
-  <h1 id="question">Will you be my Valentine Abhinav? 💖</h1>
+  <h1 id="question">Will You Be My Valentine? 💖</h1>
   <p id="prompt">Abhinav, say YES… the NO button is scared anyway 😏</p>
 
   <div class="buttons">
@@ -169,7 +169,7 @@
         setTimeout(() => {
           gameInfo.style.display = "none";
           question.style.display = "block";
-          prompt.style.display = "block"; // show the playful line
+          prompt.style.display = "block"; // shows the playful line
           buttons.style.display = "block";
           heart.remove();
         }, 600);
