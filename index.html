@@ -120,9 +120,11 @@
     <div id="counter">Hearts caught: 0</div>
   </div>
 
-  <!-- UPDATED QUESTION AND PLAYFUL LINE -->
+  <!-- QUESTION -->
   <h1 id="question">Will You Be My Valentine? 💖</h1>
-  <p id="prompt">Abhinav, say YES… the NO button is scared anyway 😏</p>
+
+  <!-- UPDATED LINE -->
+  <p id="prompt">Poorni, say YES...the NO button is scared anyways 😏</p>
 
   <div class="buttons">
     <button id="yesBtn">YES</button>
@@ -150,7 +152,6 @@
   let heartsCaught = 0;
   let gameOver = false;
 
-  /* HEART GAME */
   function createHeart() {
     if (gameOver) return;
 
@@ -170,7 +171,7 @@
         setTimeout(() => {
           gameInfo.style.display = "none";
           question.style.display = "block";
-          prompt.style.display = "block"; // show the playful line immediately
+          prompt.style.display = "block";
           buttons.style.display = "block";
           heart.remove();
         }, 600);
@@ -185,19 +186,14 @@
 
   setInterval(createHeart, 900);
 
-  /* NO BUTTON ESCAPE */
   noBtn.addEventListener("mouseenter", () => {
     const area = buttons.getBoundingClientRect();
     const btn = noBtn.getBoundingClientRect();
 
-    const maxX = area.width - btn.width;
-    const maxY = area.height - btn.height;
-
-    noBtn.style.left = Math.random() * maxX + "px";
-    noBtn.style.top = Math.random() * maxY + "px";
+    noBtn.style.left = Math.random() * (area.width - btn.width) + "px";
+    noBtn.style.top = Math.random() * (area.height - btn.height) + "px";
   });
 
-  /* YES BUTTON */
   yesBtn.addEventListener("click", () => {
     question.style.display = "none";
     prompt.style.display = "none";
@@ -208,6 +204,7 @@
 
 </body>
 </html>
+
 
 
 
